@@ -43,15 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Friendship.cs" />
-    <Compile Include="Models\ShowEvent.cs" />
     <Compile Include="Models\UserGroup.cs" />
-    <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\Show.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserShowHistory.cs" />
     <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

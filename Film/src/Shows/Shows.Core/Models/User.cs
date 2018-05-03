@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Shows.Core.Models
 {
@@ -15,11 +16,10 @@ namespace Shows.Core.Models
         public string Username { get; set; }
         public string Password { get; set; }
 
-        public virtual List<UserGroup> Groups { get; set; }
-        public virtual List<UserReview> Reviews { get; set; }
-        public virtual List<UserInterest> Interests { get; set; }
-        public virtual List<Reservation> Reservations { get; set; }
-        public virtual List<Friendship> Friendships { get; set; }
+        [JsonIgnore] public virtual List<UserShowHistory> UserShowHistory { get; set; }
+        [JsonIgnore] public virtual List<UserGroup> Groups { get; set; }
+        [JsonIgnore] public virtual List<UserReview> Reviews { get; set; }
+        [JsonIgnore] public virtual List<UserInterest> Interests { get; set; }
     }
 
     public enum UserLevel

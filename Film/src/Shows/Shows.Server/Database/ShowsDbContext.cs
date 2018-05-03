@@ -11,16 +11,14 @@ namespace Shows.Server.Database
     {
         public ShowsDbContext()
         {
-            this.Database.Connection.ConnectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=shows;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            this.Database.Connection.ConnectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=shows;Integrated Security=True;Connect Timeout=5;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"; //HARDCODED
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Show> Shows { get; set; }
-        public DbSet<ShowEvent> ShowEvents { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Friendship> Friendships { get; set; }
         public DbSet<UserGroup> UserGroups { get; set; }
         public DbSet<UserInterest> UserInterests { get; set; }
         public DbSet<UserReview> UserReviews { get; set; }
+        public DbSet<UserShowHistory> UserHistory { get; set; }
     }
 }

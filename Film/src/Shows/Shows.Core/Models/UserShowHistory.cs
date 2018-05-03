@@ -7,16 +7,19 @@ using Newtonsoft.Json;
 
 namespace Shows.Core.Models
 {
-    public class UserReview
+    public class UserShowHistory
     {
         public int Id { get; set; }
 
         public Guid PublicId { get; set; }
-
-        public string Review { get; set; }
-        public int Rating { get; set; }
+        public DateTime DateTime { get; set; }
 
         public virtual User User { get; set; }
         public virtual Show Show { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Show} - {DateTime.ToShortDateString()}";
+        }
     }
 }

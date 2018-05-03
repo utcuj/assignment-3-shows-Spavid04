@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Shows.Core.Models
 {
@@ -16,8 +17,15 @@ namespace Shows.Core.Models
         public string Description { get; set; }
         public string Genre { get; set; }
         public DateTime ReleaseDate { get; set; }
+        public string ImdbId { get; set; }
         public int ImdbRating { get; set; }
 
-        public virtual List<ShowEvent> Events { get; set; }
+        [JsonIgnore] public virtual List<UserReview> UserReviews { get; set; }
+        [JsonIgnore] public virtual List<UserShowHistory> UserShowHistory { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Title} ({ReleaseDate.Year})";
+        }
     }
 }
