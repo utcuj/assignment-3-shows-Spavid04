@@ -92,5 +92,25 @@ namespace Shows.Client
                 }
             }
         }
+
+        public bool Delete()
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUri);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = client.DeleteAsync(controller + "/" + ArgumentsAsUri()).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

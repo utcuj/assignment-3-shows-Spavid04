@@ -17,7 +17,6 @@ namespace Shows.Server
                 EnableJavaScriptProxies = false
             };
             app.MapSignalR(hubConfiguration);
-
         }
     }
 }

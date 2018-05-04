@@ -16,8 +16,6 @@ namespace Shows.Client.Forms
     {
         private User user;
 
-        private int lastShowId = -1;
-
         public UserForm(User user)
         {
             this.user = user;
@@ -60,11 +58,6 @@ namespace Shows.Client.Forms
 
                 MessageBox.Show(show.ToString()); //todo
             }
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            lastShowId = listBox1.SelectedIndex == -1 ? -1 : ((Show) listBox1.SelectedItem).Id;
         }
 
         private void searchFields_Changed(object sender, EventArgs e)
@@ -157,7 +150,87 @@ namespace Shows.Client.Forms
 
         #region Tab3
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var show = ((Show) listBox1.SelectedItem);
 
+            var data = new Tuple<int, int>(this.user.Id, show.Id);
+            new ApiConnector().ForController("interest").Post(data);
+
+            MessageBox.Show("Ta-da!");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (listBox3.SelectedIndex == -1)
+                return;
+
+            var group = (UserGroup) listBox3.SelectedItem;
+
+            new ApiConnector().ForController("recommendation")
+                .AddParameter("userId", this.user.Id)
+                .AddParameter("showId", ((Show) listBox1.SelectedItem).Id)
+                .Post(((UserGroup) listBox3.SelectedItem).Id);
+
+            MessageBox.Show("Ta-da!");
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox7.Text))
+                return;
+
+            new ApiConnector().ForController("group")
+                .AddParameter("userId", this.user.Id)
+                .Post(textBox7.Text);
+
+            textBox7.Clear();
+            RefreshTab3List();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrEmpty(textBox8.Text))
+                return;
+
+            new ApiConnector().ForController("recommendation")
+                .AddParameter("userId", this.user.Id)
+                .AddParameter("showId", ((Show)listBox1.SelectedItem).Id)
+                .Post(textBox8.Text);
+
+            textBox8.Clear();
+        }
+
+        private void listBox3_DoubleClick(object sender, EventArgs e)
+        {
+            if (listBox3.SelectedIndex != -1)
+            {
+                var group = (UserGroup)listBox3.SelectedItem;
+
+                new ApiConnector().ForController("group")
+                    .AddParameter("userId", this.user.Id)
+                    .AddParameter("groupId", group.Id)
+                    .Delete();
+
+                listBox3.Items.Remove(group);
+
+                RefreshTab3List();
+            }
+        }
+
+        private void RefreshTab3List()
+        {
+            listBox3.Items.Clear();
+
+            var groups = new ApiConnector<List<UserGroup>>().ForController("group")
+                .AddParameter("userId", this.user.Id)
+                .Get();
+
+            foreach (var userGroup in groups)
+            {
+                listBox3.Items.Add(userGroup);
+            }
+        }
 
         #endregion
 
@@ -176,7 +249,8 @@ namespace Shows.Client.Forms
                 }
                 else
                 {
-                    
+                    button4.Enabled = button5.Enabled = button7.Enabled = listBox1.SelectedIndex != -1;
+                    RefreshTab3List();
                 }
             }
         }

@@ -15,5 +15,10 @@ namespace Shows.Core.Models
         public string Description { get; set; }
 
         public virtual List<User> Users { get; set; }
+
+        public override string ToString()
+        {
+            return Description;
+        }
     }
 }
