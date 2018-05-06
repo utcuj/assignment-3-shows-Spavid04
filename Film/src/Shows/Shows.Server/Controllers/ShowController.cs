@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -21,14 +22,34 @@ namespace Shows.Server.Controllers
         }
 
         public List<Show> Get(string title, string actors, string description, string genre, string imdbId,
-            DateTime date1, DateTime date2, int imdbRating)
+            DateTime date1, DateTime date2, int imdbRating, bool? available)
         {
             var filter = new StandardShowFilter(String.IsNullOrEmpty(imdbId) ? title : imdbId, description, actors,
-                genre, date1, date2, imdbRating);
+                genre, date1, date2, imdbRating, available);
 
             var shows = filter.ApplyFilter(dbContext.Shows).ToList();
 
             return shows;
+        }
+
+        public void Post([FromBody] Show show)
+        {
+            if (show.PublicId == Guid.Empty)
+            {
+                //new
+                show.PublicId = Guid.NewGuid();
+            }
+
+            dbContext.Shows.AddOrUpdate(show);
+            dbContext.SaveChanges();
+        }
+
+        public void Delete(int showId)
+        {
+            var show = dbContext.Shows.First(x => x.Id == showId);
+
+            dbContext.Shows.Remove(show);
+            dbContext.SaveChanges();
         }
     }
 }

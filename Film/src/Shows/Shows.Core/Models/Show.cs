@@ -19,13 +19,28 @@ namespace Shows.Core.Models
         public DateTime ReleaseDate { get; set; }
         public string ImdbId { get; set; }
         public int ImdbRating { get; set; }
+        public bool Available { get; set; }
 
         [JsonIgnore] public virtual List<UserReview> UserReviews { get; set; }
         [JsonIgnore] public virtual List<UserShowHistory> UserShowHistory { get; set; }
 
         public override string ToString()
         {
-            return $"{Title} ({ReleaseDate.Year})";
+            return $"{Title} ({ReleaseDate.Year}){(!Available ? " Unavailable" : "")}";
+        }
+
+        public string ToLongString()
+        {
+            string[] lines =
+            {
+                $"{Title} ({ReleaseDate.ToShortDateString()}), {Genre}",
+                Description,
+                Actors,
+                $"IMDB: {ImdbRating} ({ImdbId})",
+                (!Available ? " Unavailable" : "")
+            };
+
+            return String.Join(Environment.NewLine, lines);
         }
     }
 }

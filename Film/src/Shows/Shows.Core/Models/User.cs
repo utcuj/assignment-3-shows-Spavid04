@@ -20,6 +20,11 @@ namespace Shows.Core.Models
         [JsonIgnore] public virtual List<UserGroup> Groups { get; set; }
         [JsonIgnore] public virtual List<UserReview> Reviews { get; set; }
         [JsonIgnore] public virtual List<UserInterest> Interests { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Username} - {UserLevel.ToString()}";
+        }
     }
 
     public enum UserLevel

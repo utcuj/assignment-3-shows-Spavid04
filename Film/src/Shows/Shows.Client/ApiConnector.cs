@@ -49,7 +49,9 @@ namespace Shows.Client
                 return "";
             else
             {
-                return "?" + String.Join("&", args.Select(x => x.Key + "=" + WebUtility.UrlEncode(x.Value.ToString())));
+                return "?" + String.Join("&",
+                           args.Select(x =>
+                               x.Key + "=" + WebUtility.UrlEncode(x.Value?.ToString() ?? "null")));
             }
         }
 

@@ -43,6 +43,12 @@ namespace Shows.Client.Forms
             {
                 var show = ((Show)listBox1.SelectedItem);
 
+                if (show.Available)
+                {
+                    MessageBox.Show("Unavailable!");
+                    return;
+                }
+
                 Tuple<int, int> data = new Tuple<int, int>(this.user.Id, show.Id);
                 new ApiConnector().ForController("userHistory").Post(data);
 
@@ -56,7 +62,7 @@ namespace Shows.Client.Forms
             {
                 var show = ((Show)listBox1.SelectedItem);
 
-                MessageBox.Show(show.ToString()); //todo
+                MessageBox.Show(show.ToLongString());
             }
         }
 
@@ -80,7 +86,11 @@ namespace Shows.Client.Forms
                 .AddParameter("imdbId", textBox5.Text.FlattenString())
                 .AddParameter("date1", dateTimePicker1.Value)
                 .AddParameter("date2", dateTimePicker2.Value)
-                .AddParameter("imdbRating", (int) numericUpDown1.Value);
+                .AddParameter("imdbRating", (int) numericUpDown1.Value)
+                .AddParameter("available",
+                    checkBox1.CheckState == CheckState.Checked
+                        ? (bool?) true
+                        : (checkBox1.CheckState == CheckState.Unchecked ? (bool?) false : null));
 
             var shows = apiConnector.Get();
             foreach (var show in shows)

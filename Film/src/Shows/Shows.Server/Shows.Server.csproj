@@ -198,6 +198,10 @@
     <Compile Include="Migrations\201805032231137_RemoveFriendship.Designer.cs">
       <DependentUpon>201805032231137_RemoveFriendship.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805061809119_ShowAvaliability.cs" />
+    <Compile Include="Migrations\201805061809119_ShowAvaliability.Designer.cs">
+      <DependentUpon>201805061809119_ShowAvaliability.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Notifications\Broadcaster.cs" />
     <Compile Include="Notifications\NotificationHandler.cs" />
@@ -241,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805032231137_RemoveFriendship.resx">
       <DependentUpon>201805032231137_RemoveFriendship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805061809119_ShowAvaliability.resx">
+      <DependentUpon>201805061809119_ShowAvaliability.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
