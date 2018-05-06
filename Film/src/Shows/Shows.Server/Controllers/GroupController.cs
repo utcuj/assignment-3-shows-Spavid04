@@ -9,7 +9,7 @@ using Shows.Server.Database;
 
 namespace Shows.Server.Controllers
 {
-    class GroupController : ApiController
+    public class GroupController : ApiController
     {
         private ShowsDbContext dbContext = new ShowsDbContext();
 
@@ -34,6 +34,8 @@ namespace Shows.Server.Controllers
                 };
                 group = dbContext.UserGroups.Add(group);
                 dbContext.SaveChanges();
+
+                group = dbContext.UserGroups.First(x => x.Id == group.Id);
 
                 group.Users.Add(user);
                 dbContext.SaveChanges();

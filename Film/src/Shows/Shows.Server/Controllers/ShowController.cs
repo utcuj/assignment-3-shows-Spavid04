@@ -7,6 +7,7 @@ using System.Web.Http;
 using Shows.Core.Models;
 using Shows.Server.Database;
 using Shows.Server.Filters;
+using Shows.Server.Notifications;
 
 namespace Shows.Server.Controllers
 {
@@ -34,6 +35,17 @@ namespace Shows.Server.Controllers
 
         public void Post([FromBody] Show show)
         {
+            bool shouldNotify = false;
+            if (Get(show.Id) != null)
+            {
+                var oldShow = Get(show.Id);
+
+                if (oldShow.Available == false && show.Available == true)
+                {
+                    shouldNotify = true;
+                }
+            }
+
             if (show.PublicId == Guid.Empty)
             {
                 //new
@@ -42,6 +54,23 @@ namespace Shows.Server.Controllers
 
             dbContext.Shows.AddOrUpdate(show);
             dbContext.SaveChanges();
+
+            show = dbContext.Shows.First(x => x.Id == show.Id);
+
+            if (shouldNotify)
+            {
+                foreach (var interest in show.UserInterests)
+                {
+                    var notification = new Notification()
+                    {
+                        ForUser = interest.User,
+                        ForShow = show,
+                        Details = "It has now become available!",
+                        Type = NotificationType.ShowAvailability
+                    };
+                    NotificationHandler.AddNewNotification(dbContext, notification);
+                }
+            }
         }
 
         public void Delete(int showId)

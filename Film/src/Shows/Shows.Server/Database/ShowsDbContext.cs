@@ -20,5 +20,7 @@ namespace Shows.Server.Database
         public DbSet<UserInterest> UserInterests { get; set; }
         public DbSet<UserReview> UserReviews { get; set; }
         public DbSet<UserShowHistory> UserHistory { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

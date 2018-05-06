@@ -23,6 +23,7 @@ namespace Shows.Core.Models
 
         [JsonIgnore] public virtual List<UserReview> UserReviews { get; set; }
         [JsonIgnore] public virtual List<UserShowHistory> UserShowHistory { get; set; }
+        [JsonIgnore] public virtual List<UserInterest> UserInterests { get; set; }
 
         public override string ToString()
         {

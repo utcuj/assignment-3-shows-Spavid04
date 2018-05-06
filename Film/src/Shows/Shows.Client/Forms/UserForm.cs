@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,14 +16,55 @@ namespace Shows.Client.Forms
     public partial class UserForm : Form
     {
         private User user;
+        private static ConcurrentBag<Notification> pendingNotifications = new ConcurrentBag<Notification>();
+
+        public static void TryShowNotification(User currentUser, Notification notification)
+        {
+            if (currentUser.Id == notification.ForUser.Id)
+            {
+                pendingNotifications.Add(notification);
+                //new ApiConnector().ForController("notification").AddParameter("notificationId", notification.Id)
+                //    .Delete();
+            }
+        }
 
         public UserForm(User user)
         {
             this.user = user;
+            NotificationReceiever.InitilizeHub(user);
 
             InitializeComponent();
 
             InitTab1();
+
+            Timer notificationTimer = new Timer();
+            notificationTimer.Tick += NotificationTimer_Tick;
+            notificationTimer.Interval = 5000;
+            notificationTimer.Start();
+        }
+
+        private void NotificationTimer_Tick(object sender, EventArgs e)
+        {
+            lock (pendingNotifications)
+            {
+                if (pendingNotifications.Count > 0)
+                {
+                    int notificationCount = 1;
+                    foreach (var pendingNotification in pendingNotifications)
+                    {
+                        NotificationForm f = new NotificationForm(pendingNotification.ToString(), notificationCount);
+                        f.Show();
+                        new ApiConnector().ForController("notification").AddParameter("notificationId", pendingNotification.Id)
+                            .Delete();
+                        notificationCount++;
+                    }
+                    Notification n;
+                    while (!pendingNotifications.IsEmpty)
+                    {
+                        pendingNotifications.TryTake(out n);
+                    }
+                }
+            }
         }
 
         #region Tab1
@@ -180,6 +222,7 @@ namespace Shows.Client.Forms
             new ApiConnector().ForController("recommendation")
                 .AddParameter("userId", this.user.Id)
                 .AddParameter("showId", ((Show) listBox1.SelectedItem).Id)
+                .AddParameter("toGroup", true)
                 .Post(((UserGroup) listBox3.SelectedItem).Id);
 
             MessageBox.Show("Ta-da!");
@@ -206,6 +249,7 @@ namespace Shows.Client.Forms
             new ApiConnector().ForController("recommendation")
                 .AddParameter("userId", this.user.Id)
                 .AddParameter("showId", ((Show)listBox1.SelectedItem).Id)
+                .AddParameter("toGroup", false)
                 .Post(textBox8.Text);
 
             textBox8.Clear();
