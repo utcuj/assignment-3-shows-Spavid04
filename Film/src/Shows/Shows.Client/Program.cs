@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ namespace Shows.Client
 {
     public static class Program
     {
-        public const string ApiUri = @"http://localhost:49924/api/"; //HARDCODED
+        public static readonly string ApiUri = ConfigurationManager.AppSettings["apiUri"];
 
         /// <summary>
         /// The main entry point for the application.

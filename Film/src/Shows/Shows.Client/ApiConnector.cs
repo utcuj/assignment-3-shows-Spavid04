@@ -21,8 +21,12 @@ namespace Shows.Client
         private Dictionary<string, object> args = new Dictionary<string, object>();
         private string controller;
 
-        public ApiConnector(string baseUri = Program.ApiUri)
+        public ApiConnector(string baseUri = null)
         {
+            if (baseUri == null)
+            {
+                baseUri = Program.ApiUri;
+            }
             this.baseUri = baseUri;
         }
 

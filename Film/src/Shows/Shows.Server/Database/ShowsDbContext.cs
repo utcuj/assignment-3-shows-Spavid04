@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,7 @@ namespace Shows.Server.Database
     {
         public ShowsDbContext()
         {
-            this.Database.Connection.ConnectionString = @"Data Source=(localdb)\ProjectsV13;Initial Catalog=shows;Integrated Security=True;Connect Timeout=5;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"; //HARDCODED
+            this.Database.Connection.ConnectionString = ConfigurationManager.AppSettings["dbConnectionString"];
         }
 
         public DbSet<User> Users { get; set; }
