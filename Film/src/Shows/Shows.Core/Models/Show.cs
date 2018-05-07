@@ -20,6 +20,7 @@ namespace Shows.Core.Models
         public string ImdbId { get; set; }
         public int ImdbRating { get; set; }
         public bool Available { get; set; }
+        public ShowType ShowType { get; set; }
 
         [JsonIgnore] public virtual List<UserReview> UserReviews { get; set; }
         [JsonIgnore] public virtual List<UserShowHistory> UserShowHistory { get; set; }
@@ -27,14 +28,14 @@ namespace Shows.Core.Models
 
         public override string ToString()
         {
-            return $"{Title} ({ReleaseDate.Year}){(!Available ? " Unavailable" : "")}";
+            return $"{Title} ({ReleaseDate.Year},{ShowType.ToString()[0]}){(!Available ? " Unavailable" : "")}";
         }
 
         public string ToLongString()
         {
             string[] lines =
             {
-                $"{Title} ({ReleaseDate.ToShortDateString()}), {Genre}",
+                $"{Title} ({ReleaseDate.ToShortDateString()}), {Genre}-{ShowType.ToString()}",
                 Description,
                 Actors,
                 $"IMDB: {ImdbRating} ({ImdbId})",
@@ -43,5 +44,12 @@ namespace Shows.Core.Models
 
             return String.Join(Environment.NewLine, lines);
         }
+    }
+
+    public enum ShowType
+    {
+        Movie = 0,
+        Theatre = 1,
+        Sport = 2
     }
 }

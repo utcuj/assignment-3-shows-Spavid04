@@ -134,7 +134,20 @@ namespace Shows.Client.Forms
                         ? (bool?) true
                         : (checkBox1.CheckState == CheckState.Unchecked ? (bool?) false : null));
 
-            var shows = apiConnector.Get();
+            List<Show> shows = new List<Show>();
+
+            if (checkBox2.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Movie).Get());
+            }
+            if (checkBox3.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Theatre).Get());
+            }
+            if (checkBox4.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Sport).Get());
+            }
             foreach (var show in shows)
             {
                 listBox1.Items.Add(show);

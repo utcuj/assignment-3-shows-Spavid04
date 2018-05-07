@@ -55,6 +55,7 @@ namespace Shows.Client.Forms
             dateTimePicker2.Value = DateTime.Now;
             numericUpDown1.Value = 0;
             checkBox1.CheckState = CheckState.Indeterminate;
+            checkBox2.Checked = checkBox3.Checked = checkBox4.Checked = true;
 
             listBox1.SelectedIndex = -1;
             RefreshTab1List();
@@ -72,6 +73,9 @@ namespace Shows.Client.Forms
             show.ReleaseDate = dateTimePicker1.Value;
             show.ImdbRating = (int) numericUpDown1.Value;
             show.Available = checkBox1.Checked;
+            show.ShowType = checkBox2.Checked
+                ? ShowType.Movie
+                : (checkBox3.Checked ? ShowType.Theatre : ShowType.Sport);
 
             new ApiConnector().ForController("show").Post(show);
 
@@ -111,6 +115,9 @@ namespace Shows.Client.Forms
                 dateTimePicker2.Value = DateTime.Now;
                 numericUpDown1.Value = show.ImdbRating;
                 checkBox1.CheckState = show.Available ? CheckState.Checked : CheckState.Unchecked;
+                checkBox2.Checked = show.ShowType == ShowType.Movie;
+                checkBox3.Checked = show.ShowType == ShowType.Theatre;
+                checkBox4.Checked = show.ShowType == ShowType.Sport;
             }
         }
 
@@ -135,7 +142,21 @@ namespace Shows.Client.Forms
                         ? (bool?)true
                         : (checkBox1.CheckState == CheckState.Unchecked ? (bool?)false : null));
 
-            var shows = apiConnector.Get();
+            List<Show> shows = new List<Show>();
+
+            if (checkBox2.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Movie).Get());
+            }
+            if (checkBox3.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Theatre).Get());
+            }
+            if (checkBox4.Checked)
+            {
+                shows.AddRange(apiConnector.AddParameter("showType", ShowType.Sport).Get());
+            }
+            
             foreach (var show in shows)
             {
                 listBox1.Items.Add(show);

@@ -23,10 +23,10 @@ namespace Shows.Server.Controllers
         }
 
         public List<Show> Get(string title, string actors, string description, string genre, string imdbId,
-            DateTime date1, DateTime date2, int imdbRating, bool? available)
+            DateTime date1, DateTime date2, int imdbRating, bool? available, ShowType showType)
         {
             var filter = new StandardShowFilter(String.IsNullOrEmpty(imdbId) ? title : imdbId, description, actors,
-                genre, date1, date2, imdbRating, available);
+                genre, date1, date2, imdbRating, available, showType);
 
             var shows = filter.ApplyFilter(dbContext.Shows).ToList();
 

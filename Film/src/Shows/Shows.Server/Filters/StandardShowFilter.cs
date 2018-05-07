@@ -9,7 +9,7 @@ namespace Shows.Server.Filters
 {
     public class StandardShowFilter : Filter<Show>
     {
-        public StandardShowFilter(string byTitleOrImdb, string byDescription, string byActors, string byGenre, DateTime byDateTimeFrom, DateTime byDateTimeTo, int byMinImdbRating, bool? byAvailability)
+        public StandardShowFilter(string byTitleOrImdb, string byDescription, string byActors, string byGenre, DateTime byDateTimeFrom, DateTime byDateTimeTo, int byMinImdbRating, bool? byAvailability, ShowType byShowType)
         {
             if (!String.IsNullOrEmpty(byTitleOrImdb))
             {
@@ -35,6 +35,7 @@ namespace Shows.Server.Filters
             {
                 this.AddFilter(x => x.Available == byAvailability);
             }
+            this.AddFilter(x => x.ShowType == byShowType);
         }
     }
 }
