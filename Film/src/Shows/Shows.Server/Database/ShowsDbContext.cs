@@ -12,7 +12,7 @@ namespace Shows.Server.Database
     {
         public ShowsDbContext()
         {
-            this.Database.Connection.ConnectionString = ConfigurationManager.AppSettings["dbConnectionString"];
+            this.Database.Connection.ConnectionString = ConfigurationManager.ConnectionStrings["Shows"].ConnectionString;
         }
 
         public DbSet<User> Users { get; set; }

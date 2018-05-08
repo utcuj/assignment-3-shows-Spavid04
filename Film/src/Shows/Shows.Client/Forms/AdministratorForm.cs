@@ -199,6 +199,11 @@ namespace Shows.Client.Forms
             listBox2.SelectedIndex = -1;
         }
 
+        private void button7_Click(object sender, EventArgs e)
+        {
+            textBox8.PasswordChar = textBox8.PasswordChar == '\0' ? '*' : '\0';
+        }
+
         private void textBox6_TextChanged(object sender, EventArgs e)
         {
             RefreshTab2List();
@@ -211,6 +216,7 @@ namespace Shows.Client.Forms
                 var user = (User) listBox2.SelectedItem;
 
                 textBox7.Text = user.Username;
+                textBox7.ReadOnly = true;
                 textBox8.Text = user.Password;
                 radioButton1.Checked = user.UserLevel == UserLevel.Regular;
                 radioButton2.Checked = user.UserLevel == UserLevel.Premium;
@@ -218,6 +224,7 @@ namespace Shows.Client.Forms
             else
             {
                 textBox7.Clear();
+                textBox7.ReadOnly = false;
                 textBox8.Clear();
                 radioButton1.Checked = true;
                 radioButton2.Checked = false;
@@ -244,5 +251,13 @@ namespace Shows.Client.Forms
         }
 
         #endregion
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedIndex == 1)
+            {
+                RefreshTab2List();
+            }
+        }
     }
 }
