@@ -186,8 +186,11 @@
     <Compile Include="Controllers\UserReviewController.cs" />
     <Compile Include="Database\ShowsDbContext.cs" />
     <Compile Include="Filters\Filter.cs" />
-    <Compile Include="Filters\StandardShowFilter.cs" />
-    <Compile Include="Filters\StandardUserFilter.cs" />
+    <Compile Include="Filters\IFilterProvider.cs" />
+    <Compile Include="Filters\AndFilter.cs" />
+    <Compile Include="Filters\OrFilter.cs" />
+    <Compile Include="Filters\StandardShowFilterProvider.cs" />
+    <Compile Include="Filters\StandardUserFilterProvider.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,7 +243,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -7,32 +7,13 @@ namespace Shows.Server.Filters
 {
     public abstract class Filter<T>
     {
-        protected List<Predicate<T>> Filters = new List<Predicate<T>>();
+        protected List<Predicate<T>> Predicates;
 
-        public IEnumerable<T> ApplyFilter(IEnumerable<T> source)
+        protected Filter(IFilterProvider<T> filterProvider)
         {
-            IEnumerable<T> result = source;
-
-            foreach (var filter in Filters)
-            {
-                result = result.Where(x => filter(x) == true);
-            }
-
-            return result;
+            Predicates = filterProvider.GetFilters();
         }
 
-        public void AddFilter(Predicate<T> predicate)
-        {
-            Filters.Add(predicate);
-        }
-
-        public bool Matches(T item)
-        {
-            if (Filters.Count == 0) return true;
-
-            return Filters
-                .Select(x => x(item))
-                .All(x => x == true);
-        }
+        public abstract IEnumerable<T> ApplyFilter(IEnumerable<T> source);
     }
 }

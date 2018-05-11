@@ -30,7 +30,7 @@ namespace Shows.Server.Controllers
 
         public List<User> Get(string username, UserLevel level)
         {
-            Filter<User> filter = new StandardUserFilter(username, level);
+            Filter<User> filter = new AndFilter<User>(new StandardUserFilterProvider(username, level));
 
             var users = filter.ApplyFilter(dbContext.Users);
 
