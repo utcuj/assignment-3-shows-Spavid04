@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Shows.Core;
@@ -76,6 +77,12 @@ namespace Shows.Client.Forms
             show.ShowType = checkBox2.Checked
                 ? ShowType.Movie
                 : (checkBox3.Checked ? ShowType.Theatre : ShowType.Sport);
+
+            if (!Regex.IsMatch(show.ImdbId, @"tt\d{8}"))
+            {
+                MessageBox.Show("Incorrect IMDB id!");
+                return;
+            }
 
             new ApiConnector().ForController("show").Post(show);
 
