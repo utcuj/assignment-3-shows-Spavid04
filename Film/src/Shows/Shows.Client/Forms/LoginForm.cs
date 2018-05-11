@@ -21,8 +21,17 @@ namespace Shows.Client.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var data = new ApiConnector<Tuple<Guid, UserLevel>>().ForController("login")
-                .AddParameter("username", textBox1.Text).AddParameter("password", textBox2.Text).Get();
+            Tuple<Guid, UserLevel> data = null;
+            try
+            {
+                data = new ApiConnector<Tuple<Guid, UserLevel>>().ForController("login")
+                    .AddParameter("username", textBox1.Text).AddParameter("password", textBox2.Text).Get();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not connect to server!");
+                Environment.Exit(0);
+            }
 
             if (data.Item1 == Guid.Empty)
             {

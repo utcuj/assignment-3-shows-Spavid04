@@ -13,6 +13,8 @@ namespace Shows.Server.Controllers
 
         public void Delete(int notificationId)
         {
+            //unsubscribe
+
             var notification = dbContext.Notifications.FirstOrDefault(x => x.Id == notificationId);
 
             if (notification == null)

@@ -32,7 +32,7 @@ namespace Shows.Server.Notifications
             mutex.ReleaseMutex();
         }
 
-        public static void AddNewNotification(ShowsDbContext dbContext, Notification notification)
+        public static void Subscribe(ShowsDbContext dbContext, Notification notification)
         {
             dbContext.Notifications.Add(notification);
             dbContext.SaveChanges();

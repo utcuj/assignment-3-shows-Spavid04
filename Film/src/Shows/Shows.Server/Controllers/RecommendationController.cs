@@ -33,7 +33,7 @@ namespace Shows.Server.Controllers
                     Details = $"{sender.Username} has recommended you this show!",
                     Type = NotificationType.UserRecommendation
                 };
-                NotificationHandler.AddNewNotification(dbContext, notification);
+                NotificationHandler.Subscribe(dbContext, notification);
             }
             else
             {
@@ -56,7 +56,7 @@ namespace Shows.Server.Controllers
                             $"{sender.Username} has recommended this show to one of your groups! ({group.Description})",
                         Type = NotificationType.UserRecommendation
                     };
-                    NotificationHandler.AddNewNotification(dbContext, notification);
+                    NotificationHandler.Subscribe(dbContext, notification);
                 }
             }
         }

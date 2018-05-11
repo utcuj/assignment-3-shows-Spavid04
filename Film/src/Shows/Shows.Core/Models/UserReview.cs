@@ -18,5 +18,10 @@ namespace Shows.Core.Models
 
         public virtual User User { get; set; }
         public virtual Show Show { get; set; }
+
+        public override string ToString()
+        {
+            return $"{User.Username} - {Rating}";
+        }
     }
 }

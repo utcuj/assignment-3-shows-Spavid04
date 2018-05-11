@@ -53,6 +53,21 @@ namespace Shows.Server.Controllers
         {
             var user = dbContext.Users.First(x => x.Id == userId);
 
+            dbContext.UserInterests.RemoveRange(user.Interests);
+            dbContext.SaveChanges();
+
+            dbContext.UserReviews.RemoveRange(user.Reviews);
+            dbContext.SaveChanges();
+
+            dbContext.UserHistory.RemoveRange(user.UserShowHistory);
+            dbContext.SaveChanges();
+
+            foreach (var group in dbContext.UserGroups)
+            {
+                group.Users.RemoveAll(x => x.Id == userId);
+            }
+            dbContext.SaveChanges();
+
             dbContext.Users.Remove(user);
             dbContext.SaveChanges();
         }

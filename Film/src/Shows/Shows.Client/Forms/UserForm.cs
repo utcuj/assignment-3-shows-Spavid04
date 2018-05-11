@@ -108,6 +108,21 @@ namespace Shows.Client.Forms
             }
         }
 
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedIndex != -1)
+            {
+                var show = ((Show)listBox1.SelectedItem);
+
+                var reviews = new ApiConnector<List<UserReview>>().ForController("userReview")
+                    .AddParameter("showId", show.Id)
+                    .Get();
+
+                ReviewForm f = new ReviewForm(reviews);
+                f.ShowDialog();
+            }
+        }
+
         private void searchFields_Changed(object sender, EventArgs e)
         {
             RefreshTab1List();

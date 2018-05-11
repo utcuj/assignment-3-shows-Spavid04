@@ -68,7 +68,7 @@ namespace Shows.Server.Controllers
                         Details = "It has now become available!",
                         Type = NotificationType.ShowAvailability
                     };
-                    NotificationHandler.AddNewNotification(dbContext, notification);
+                    NotificationHandler.Subscribe(dbContext, notification);
                 }
             }
         }
@@ -76,6 +76,18 @@ namespace Shows.Server.Controllers
         public void Delete(int showId)
         {
             var show = dbContext.Shows.First(x => x.Id == showId);
+
+            dbContext.UserInterests.RemoveRange(show.UserInterests);
+            dbContext.SaveChanges();
+
+            dbContext.Notifications.RemoveRange(dbContext.Notifications.Where(x => x.Id == showId));
+            dbContext.SaveChanges();
+
+            dbContext.UserReviews.RemoveRange(show.UserReviews);
+            dbContext.SaveChanges();
+
+            dbContext.UserHistory.RemoveRange(show.UserShowHistory);
+            dbContext.SaveChanges();
 
             dbContext.Shows.Remove(show);
             dbContext.SaveChanges();

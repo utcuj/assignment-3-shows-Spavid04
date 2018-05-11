@@ -22,6 +22,13 @@ namespace Shows.Server.Controllers
             return review;
         }
 
+        public List<UserReview> Get(int showId)
+        {
+            var show = dbContext.Shows.First(x => x.Id == showId);
+
+            return show.UserReviews.ToList();
+        }
+
         public void Post(int userId, int showId, [FromBody] Tuple<int, string> ratingAndReview)
         {
             var user = dbContext.Users.First(x => x.Id == userId);
